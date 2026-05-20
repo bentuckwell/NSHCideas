@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Border box</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #F8F9FA;
+    min-height: 100vh;
+  }
+  .stage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 32px;
+    box-sizing: border-box;
+  }
+  .site-header {
+    width: 100%;
+    display: block;
+  }
+  .site-header > img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .site-banner {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
+  }
+  .site-banner__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .nshcs-mark {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #1a1a1a;
+    margin: 0;
+  }
+  .nhs-mark {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-decoration: none;
+  }
+  .nhs-mark__logo {
+    background: #005EB8;
+    color: #fff;
+    font-family: "Frutiger", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1;
+    padding: 6px 8px 5px;
+    border-radius: 2px;
+    letter-spacing: -0.02em;
+  }
+  .nhs-mark__sub {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+  @media (max-width: 720px) {
+    .site-banner__inner { padding: 14px 24px; }
+    .nshcs-mark { font-size: 14px; }
+    .nhs-mark__logo { font-size: 18px; padding: 5px 7px 4px; }
+    .nhs-mark__sub { font-size: 12px; }
+  }
+
+  /* Nav bar */
+  .navbar {
+    background: #005EB8;
+    color: #fff;
+    width: 100%;
+  }
+  .navbar__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 64px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .navbar__primary {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .navbar__primary a,
+  .navbar__logout a {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 15px;
+    padding: 18px 22px;
+    position: relative;
+  }
+  .navbar__primary a:hover { background: rgba(255,255,255,0.06); }
+  .navbar__primary a.is-active::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 6px;
+    height: 4px;
+    background: #FFB81C;
+    border-radius: 2px;
+  }
+
+  /* Hero banner */
+  .hero {
+    background: #F4F6F8;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
+  }
+  .hero__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 64px 0;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .hero__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #1d70b8;
+    text-decoration: none;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .hero__back:hover { text-decoration: underline; }
+  .hero__back svg { display: block; }
+  .hero__title {
+    margin: 0 0 4px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2330;
+    letter-spacing: -0.01em;
+  }
+  .hero__subtitle {
+    margin: 0 0 12px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 16px;
+    color: #1a2330;
+  }
+  .hero__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .pill--green   { background: #e6f4ea; color: #1e7c43; }
+  .pill--red     { background: #fde7e7; color: #b3261e; }
+  .pill--neutral { background: #f1efe9; color: #5b5446; }
+
+  .hero__folder {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #1d70b8;
+    text-decoration: none;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .hero__folder .folder-icon { color: #1d70b8; }
+  .hero__folder .opens { color: #5e6b78; font-weight: 400; }
+  .hero__folder .label { text-decoration: underline; }
+
+  .hero__tabs {
+    display: flex;
+    gap: 28px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    border-top: 0;
+    margin-top: 4px;
+  }
+  .hero__tabs a {
+    display: inline-block;
+    padding: 12px 0 14px;
+    color: #1d70b8;
+    text-decoration: none;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 15px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .hero__tabs a:first-child { color: #1a2330; }
+  .hero__tabs a.is-active {
+    color: #1a2330;
+    border-bottom-color: #1a2330;
+    font-weight: 600;
+  }
+  .hero__edit-group {
+    position: absolute;
+    right: 64px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .hero__edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #4b5563;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .hero__edit:hover { background: #3a414c; }
+  .hero__cancel {
+    color: #1d70b8;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    display: none;
+  }
+  body[data-mode="edit"] .hero__cancel { display: inline-block; }
+  body[data-mode="edit"] .hero__edit svg { display: none; }
+
+  /* In edit mode: force every box open and disable chevrons */
+  body[data-mode="edit"] .box[data-open="false"] { /* nothing */ }
+  body[data-mode="edit"] .box > .box__body-wrap { grid-template-rows: 1fr !important; }
+  body[data-mode="edit"] .chev { display: none !important; }
+  body[data-mode="edit"] .box__header { cursor: default !important; }
+  body[data-mode="edit"] .form-grid > label,
+  body[data-mode="edit"] .form-grid > .form-grid__value {
+    border-bottom: 0 !important;
+  }
+  body[data-mode="edit"] .show-past { display: none !important; }
+  body[data-mode="edit"] .past-list { display: block !important; }
+  .remove-contact {
+    display: none;
+    margin-top: 14px;
+    color: #d4351c;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .remove-contact:hover { color: #942514; }
+  body[data-mode="edit"] .remove-contact { display: inline-block; }
+  .add-new-contact {
+    display: none;
+    margin: 0 0 16px;
+    color: #1d70b8;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .add-new-contact:hover { color: #0b3aa3; }
+  body[data-mode="edit"] .add-new-contact { display: inline-block; }
+  .added-entry {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #ececec;
+  }
+  .added-entry__title {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .current-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+  }
+  .current-contact-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #1d70b8;
+  }
+
+  /* Edit-mode inputs */
+  .form-grid input[type="text"],
+  .form-grid input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #b1b4b6;
+    border-radius: 4px;
+    font: inherit;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  .form-grid input[type="text"]:focus,
+  .form-grid input[type="date"]:focus {
+    outline: 3px solid #ffdd00;
+    outline-offset: 0;
+    border-color: #1a1a1a;
+  }
+  .form-grid .date-pair input[type="date"] { width: auto; min-width: 160px; }
+  .form-grid .date-pair > span { display: flex; flex-direction: column; gap: 4px; }
+  body[data-mode="edit"] .form-grid .date-pair {
+    flex-wrap: nowrap;
+    align-items: flex-end;
+  }
+  body[data-mode="edit"] .form-grid .date-pair > span {
+    flex: 0 0 auto;
+  }
+  body[data-mode="edit"] .form-grid .date-pair input[type="date"] {
+    min-width: 0;
+    width: 100%;
+  }
+  @media (max-width: 720px) {
+    .hero__inner { padding-left: 24px; padding-right: 24px; }
+    .hero__title { font-size: 22px; }
+    .hero__edit { position: static; align-self: flex-start; margin-bottom: 12px; }
+    .hero__edit-group { position: static; align-items: flex-start; margin-bottom: 12px; }
+  }
+  @media (max-width: 720px) {
+    .navbar__inner, .hero__inner { padding-left: 24px; padding-right: 24px; }
+    .navbar__primary a, .navbar__logout a { padding: 16px 12px; font-size: 14px; }
+    .hero__title { font-size: 26px; }
+  }
+  .stage > main, .page-body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 296px 600px;
+    gap: 60px;
+    padding: 32px;
+    box-sizing: border-box;
+    max-width: 1280px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .sidebar {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  .sidebar__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ececec;
+    margin: 0;
+  }
+  .sidebar__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sidebar__list a {
+    display: block;
+    padding: 12px 16px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 14px;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid #f4f4f4;
+    transition: background 120ms, border-color 120ms, color 120ms;
+  }
+  .sidebar__list li:last-child a { border-bottom: 0; }
+  .sidebar__list a:hover { background: #f7f9fb; }
+  .sidebar__list a.is-active {
+    background: #eef5fb;
+    color: #1d70b8;
+    border-left-color: #1d70b8;
+    font-weight: 600;
+  }
+  .main-col { min-width: 0; width: 600px; }
+  @media (max-width: 720px) {
+    .stage > main, .page-body {
+      grid-template-columns: 1fr;
+      padding: 16px;
+      gap: 16px;
+    }
+  }
+  .box {
+    width: 100%;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    transition: background 160ms ease;
+  }
+
+  .box__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: transparent;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: inherit;
+    text-align: left;
+  }
+  .box__title {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+  }
+  /* second-level (nested inside Provider name) */
+  .box--nested > .box__header > .box__title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  /* third-level (nested inside a nested box) */
+  .box--nested .box--nested > .box__header > .box__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  #box > .box__header > .chev { display: none; }
+  .box--no-chev > .box__header > .chev { display: none; }
+  .box--no-chev > .box__header { cursor: default; }
+  #box > .box__header { cursor: default; }
+  .box__header:focus-visible {
+    outline: 1px dashed #d0d0d0;
+    outline-offset: -4px;
+  }
+
+  .chev {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    transition: transform 250ms cubic-bezier(.4,.0,.2,1);
+  }
+  .box__header:hover .chev { background: transparent; }
+  .box[data-open="true"] > .box__header .chev {
+    transform: rotate(180deg);
+  }
+
+  /* animated body via grid-rows */
+  .box > .box__body-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms cubic-bezier(.4,.0,.2,1);
+  }
+  .box[data-open="true"] > .box__body-wrap {
+    grid-template-rows: 1fr;
+  }
+  .box__body { overflow: hidden; }
+  .box__body-inner {
+    padding: 14px;
+    box-sizing: border-box;
+  }
+
+  /* Nested accordion sits inside the parent body */
+  .box--nested {
+    width: 100%;
+  }
+  .box--nested + .box--nested { margin-top: 10px; }
+
+  /* Form rows inside the nested accordions */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0 14px;
+    align-items: center;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+  }
+  .form-grid > label,
+  .form-grid > .form-grid__value {
+    padding: 12px 0;
+    border-bottom: 1px solid #ececec;
+  }
+  .form-grid > label:nth-last-of-type(1),
+  .form-grid > .form-grid__value:last-child {
+    /* keep underline on every row including the last for consistency */
+  }
+  .form-grid label {
+    color: #444;
+    font-weight: 500;
+  }
+  .form-grid__value {
+    color: #1a1a1a;
+  }
+  .form-grid__value.muted { color: #777; }
+  .date-pair {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .date-pair span small {
+    color: #777;
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  /* Show past contacts link + history block */
+  .show-past {
+    display: inline-block;
+    margin-top: 14px;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    color: #1d4ed8;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .show-past:hover { color: #0b3aa3; }
+  .past-list {
+    display: none;
+    margin-top: 12px;
+  }
+  .past-list.is-open { display: block; }
+  .past-entry + .past-entry { margin-top: 18px; }
+  .past-entry__title {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0 0 4px;
+    padding-top: 20px;
+  }
+
+  .section-heading {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 22px 0 6px;
+    padding-top: 0;
+    border-top: 0;
+    letter-spacing: -0.005em;
+  }
+  @media (max-width: 520px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid > label { padding-bottom: 4px; border-bottom: 0; }
+  }
+
+  /* Site footer */
+  .site-footer {
+    background: #DCE0E5;
+    width: 100%;
+    margin-top: 32px;
+    color: #1a2330;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  .site-footer__top-rule {
+    height: 4px;
+    background: #005EB8;
+  }
+  .site-footer__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 64px 36px;
+    box-sizing: border-box;
+  }
+  .site-footer__heading {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: 0 0 14px;
+    color: #1a2330;
+  }
+  .site-footer__links {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+  }
+  .site-footer__links a {
+    color: #1a2330;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+  .site-footer__links--secondary { margin-bottom: 0; }
+  .site-footer__rule {
+    border: 0;
+    border-top: 1px solid #b9c0c8;
+    margin: 22px 0 18px;
+  }
+  .site-footer__bottom {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .site-footer__legal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+  }
+  .site-footer__legal a {
+    color: #1a2330;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+  .site-footer__copy {
+    margin: 0;
+    text-align: right;
+    font-size: 14px;
+    color: #1a2330;
+    line-height: 1.5;
+  }
+  .site-footer__copy a {
+    color: #1a2330;
+    text-decoration: underline;
+  }
+  @media (max-width: 720px) {
+    .site-footer__inner { padding: 20px 24px 28px; }
+    .site-footer__bottom { flex-direction: column; }
+    .site-footer__copy { text-align: left; }
+  }
+
+  .back-strip {
+    display: none;
+    background: #005EB8;
+    color: #fff;
+    padding: 10px 64px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .back-strip a {
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .back-strip a:hover { text-decoration: underline; }
+  .back-strip__tag {
+    font-size: 12px;
+    background: rgba(255,255,255,0.18);
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  /* Hospital sites group: now a sibling block beneath the Provider card */
+  .hospital-sites-group {
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 20px 32px;
+    box-sizing: border-box;
+  }
+  .hospital-sites-group .section-heading { margin: 0 0 4px; }
+  .hospital-sites-group .box--nested { margin-top: 0 !important; }
+  /* Inside each hospital site, space the inner accordions (Head of department / Training officer) */
+  .hospital-sites-group .box--nested .box--nested + .box--nested {
+    margin-top: 16px !important;
+  }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-banner">
+      <div class="site-banner__inner">
+        <p class="nshcs-mark">National School of<br />Healthcare Science</p>
+        <a class="nhs-mark" href="#" aria-label="NHS England">
+          <span class="nhs-mark__logo">NHS</span>
+          <span class="nhs-mark__sub">England</span>
+        </a>
+      </div>
+    </div>
+    <nav class="navbar" aria-label="Primary">
+      <div class="navbar__inner">
+        <div class="navbar__primary">
+          <a href="#">Dashboard</a>
+          <a href="#">Trainees</a>
+          <a href="#" class="is-active" aria-current="page">Provisions</a>
+          <a href="#">Contacts</a>
+          <a href="#">Locations</a>
+        </div>
+        <div class="navbar__logout">
+          <a href="#">Log out</a>
+        </div>
+      </div>
+    </nav>
+    <section class="hero" aria-label="Page title">
+      <div class="hero__inner" style="padding: 18px 32px 0px; width: 1010px">
+        <a class="hero__back" href="#" style="padding: 0px 0px 1px">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M9 3 L5 7 L9 11" stroke="#1d70b8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Go back to all provisions
+        </a>
+        <h1 class="hero__title">Alder Hey Children’s NHS Foundation Trust, STP, Microbiology</h1>
+        <p class="hero__subtitle">Microbiology Department</p>
+        <div class="hero__pills">
+          <span class="pill pill--green">2nd Reaccredited</span>
+          <span class="pill pill--red">Closed case</span>
+          <span class="pill pill--red">Open case</span>
+          <span class="pill pill--red">Non engager</span>
+          <span class="pill pill--red">Watchlist</span>
+        </div>
+        <a class="hero__folder" href="#">
+          <svg class="folder-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.379a1.5 1.5 0 0 1 1.06.44l1.122 1.12a1.5 1.5 0 0 0 1.06.44H19.5A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/>
+          </svg>
+          <span class="label">Provision SharePoint folder</span>
+          <span class="opens">(opens in new tab)</span>
+        </a>
+        <nav class="hero__tabs" aria-label="Provision sections">
+          <a href="#">Details</a>
+          <a href="#" class="is-active" aria-current="page">Providers</a>
+          <a href="#">Accreditations</a>
+          <a href="#">Curriculum plans</a>
+          <a href="#">Quality cases</a>
+        </nav>
+          <div class="hero__edit-group">
+            <button class="hero__edit" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 20h4l10-10-4-4L4 16v4z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 6l4 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              <span class="hero__edit-label">Edit this page</span>
+            </button>
+            <button class="hero__cancel" type="button">Cancel</button>
+          </div>
+      </div>
+    </section>
+  </header>
+  <main class="stage" style="text-align: left">
+    <div class="page-body" style="text-align: left; width: 1010px; padding: 32px">
+      <aside class="sidebar" aria-label="Providers">
+        <h2 class="sidebar__title">Providers</h2>
+        <ul class="sidebar__list" id="provider-list">
+          <li><a href="#" data-provider="Example provider name 1" class="is-active">Example provider name 1</a></li>
+          <li><a href="#" data-provider="Example provider name 2">Example provider name 2</a></li>
+          <li><a href="#" data-provider="Example provider name 3">Example provider name 3</a></li>
+          <li><a href="#" data-provider="Example provider name 4">Example provider name 4</a></li>
+        </ul>
+      </aside>
+      <div class="main-col">
+    <section class="box" data-open="true" id="box">
+      <button class="box__header" type="button" aria-expanded="true" aria-controls="box-body" style="padding: 20px 32px 10px">
+        <span class="box__title">Provider name</span>
+        <span class="chev" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <p class="box__lede" style="padding: 0 32px 16px; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-size: 15px; line-height: 1.55; color: #4a5462;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu velit at nisl porta tincidunt. Suspendisse vitae elit sed mi laoreet condimentum.</p>
+      <div class="box__body-wrap">
+        <div class="box__body" id="box-body">
+          <div class="box__body-inner" style="padding: 12px 32px 32px">
+            <section class="box box--nested" data-open="false">
+              <button class="box__header" type="button" aria-expanded="false">
+                <span class="box__title">Lead scientist</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                    <div class="form-grid">
+                      <label>Name</label>
+                      <span class="form-grid__value">Dr. Eleanor Whitfield</span>
+                      <label>Job role</label>
+                      <span class="form-grid__value">Principal Investigator</span>
+                      <label>Email</label>
+                      <span class="form-grid__value">e.whitfield@example.org</span>
+                      <label>Phone</label>
+                      <span class="form-grid__value">+44 20 7946 0118</span>
+                      <label>Start / End date</label>
+                      <span class="form-grid__value date-pair">
+                        <span><small>Start</small>14 Mar 2022</span>
+                        <span><small>End</small>13 Mar 2027</span>
+                      </span>
+                    </div>
+                    <button type="button" class="show-past" data-target="ls-past" aria-expanded="false">Show past contacts</button>
+                    <div class="past-list" id="ls-past">
+                      <div class="past-entry">
+                        <p class="past-entry__title">Previous contact</p>
+                        <div class="form-grid">
+                          <label>Name</label>
+                          <span class="form-grid__value">Prof. Alistair Pemberton</span>
+                          <label>Job role</label>
+                          <span class="form-grid__value">Senior Research Lead</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">a.pemberton@example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 20 7946 0089</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>05 Jan 2017</span>
+                            <span><small>End</small>13 Mar 2022</span>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="past-entry">
+                        <p class="past-entry__title">Previous contact</p>
+                        <div class="form-grid">
+                          <label>Name</label>
+                          <span class="form-grid__value">Dr. Yuki Tanaka</span>
+                          <label>Job role</label>
+                          <span class="form-grid__value">Principal Investigator</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">y.tanaka@example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 20 7946 0042</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>12 Jun 2012</span>
+                            <span><small>End</small>04 Jan 2017</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="box box--nested" data-open="false">
+              <button class="box__header" type="button" aria-expanded="false">
+                <span class="box__title">Annual monitoring contact</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                    <div class="form-grid">
+                      <label>Name</label>
+                      <span class="form-grid__value">Marcus Holloway</span>
+                      <label>Job role</label>
+                      <span class="form-grid__value">Quality &amp; Compliance Lead</span>
+                      <label>Email</label>
+                      <span class="form-grid__value">m.holloway@example.org</span>
+                      <label>Phone</label>
+                      <span class="form-grid__value">+44 161 496 0742</span>
+                      <label>Start / End date</label>
+                      <span class="form-grid__value date-pair">
+                        <span><small>Start</small>01 Sep 2023</span>
+                        <span><small>End</small>31 Aug 2026</span>
+                      </span>
+                    </div>
+                    <button type="button" class="show-past" data-target="am-past" aria-expanded="false">Show past contacts</button>
+                    <div class="past-list" id="am-past">
+                      <div class="past-entry">
+                        <p class="past-entry__title">Previous contact</p>
+                        <div class="form-grid">
+                          <label>Name</label>
+                          <span class="form-grid__value">Sophie Bertrand</span>
+                          <label>Job role</label>
+                          <span class="form-grid__value">Compliance Officer</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">s.bertrand@example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 161 496 0501</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>15 Apr 2020</span>
+                            <span><small>End</small>31 Aug 2023</span>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="past-entry">
+                        <p class="past-entry__title">Previous contact</p>
+                        <div class="form-grid">
+                          <label>Name</label>
+                          <span class="form-grid__value">Daniel O'Sullivan</span>
+                          <label>Job role</label>
+                          <span class="form-grid__value">Monitoring Coordinator</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">d.osullivan@example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 161 496 0388</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>02 Mar 2017</span>
+                            <span><small>End</small>14 Apr 2020</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <h3 class="section-heading" style="font-size: 22px; font-weight: 700">Hospital sites</h3>
+            <section class="box box--nested box--no-chev" data-open="true" style="margin-top:10px;">
+              <button class="box__header" type="button" aria-expanded="true">
+                <span class="box__title">Example hospital site name</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Head of department</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">St. Margaret's General Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Priya Raman</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">p.raman@stmargarets.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 113 496 0820</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>10 May 2021</span>
+                            <span><small>End</small>09 May 2026</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Royal Linden Infirmary</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">James Whitcombe</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">j.whitcombe@linden.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0455</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>03 Feb 2018</span>
+                                <span><small>End</small>09 May 2021</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Westbury Community Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Helena Garcia</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">h.garcia@westbury.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0211</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>14 Jul 2014</span>
+                                <span><small>End</small>02 Feb 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Training officer</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">Coastguard Memorial Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Felix Marlowe</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">f.marlowe@coastguard.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 117 496 0314</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>22 Aug 2022</span>
+                            <span><small>End</small>21 Aug 2027</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-2" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-2">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Northgate Teaching Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Dr. Naomi Ashford</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">n.ashford@northgate.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0192</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>11 Nov 2018</span>
+                                <span><small>End</small>21 Aug 2022</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Eastfield County Clinic</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Tomasz Kowalski</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">t.kowalski@eastfield.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0077</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>05 Mar 2015</span>
+                                <span><small>End</small>10 Nov 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="box box--nested box--no-chev" data-open="true" style="margin-top:10px;">
+              <button class="box__header" type="button" aria-expanded="true">
+                <span class="box__title">Example hospital site name</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Head of department</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">St. Margaret's General Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Priya Raman</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">p.raman@stmargarets.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 113 496 0820</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>10 May 2021</span>
+                            <span><small>End</small>09 May 2026</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-a1" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-a1">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Royal Linden Infirmary</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">James Whitcombe</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">j.whitcombe@linden.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0455</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>03 Feb 2018</span>
+                                <span><small>End</small>09 May 2021</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Westbury Community Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Helena Garcia</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">h.garcia@westbury.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0211</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>14 Jul 2014</span>
+                                <span><small>End</small>02 Feb 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Training officer</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">Coastguard Memorial Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Felix Marlowe</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">f.marlowe@coastguard.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 117 496 0314</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>22 Aug 2022</span>
+                            <span><small>End</small>21 Aug 2027</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-a2" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-a2">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Northgate Teaching Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Dr. Naomi Ashford</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">n.ashford@northgate.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0192</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>11 Nov 2018</span>
+                                <span><small>End</small>21 Aug 2022</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Eastfield County Clinic</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Tomasz Kowalski</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">t.kowalski@eastfield.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0077</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>05 Mar 2015</span>
+                                <span><small>End</small>10 Nov 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="box box--nested box--no-chev" data-open="true" style="margin-top:10px;">
+              <button class="box__header" type="button" aria-expanded="true">
+                <span class="box__title">Example hospital site name</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Head of department</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">St. Margaret's General Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Priya Raman</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">p.raman@stmargarets.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 113 496 0820</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>10 May 2021</span>
+                            <span><small>End</small>09 May 2026</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-b1" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-b1">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Royal Linden Infirmary</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">James Whitcombe</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">j.whitcombe@linden.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0455</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>03 Feb 2018</span>
+                                <span><small>End</small>09 May 2021</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Westbury Community Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Helena Garcia</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">h.garcia@westbury.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0211</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>14 Jul 2014</span>
+                                <span><small>End</small>02 Feb 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Training officer</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">Coastguard Memorial Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Felix Marlowe</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">f.marlowe@coastguard.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 117 496 0314</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>22 Aug 2022</span>
+                            <span><small>End</small>21 Aug 2027</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-b2" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-b2">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Northgate Teaching Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Dr. Naomi Ashford</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">n.ashford@northgate.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0192</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>11 Nov 2018</span>
+                                <span><small>End</small>21 Aug 2022</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Eastfield County Clinic</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Tomasz Kowalski</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">t.kowalski@eastfield.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0077</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>05 Mar 2015</span>
+                                <span><small>End</small>10 Nov 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="box box--nested box--no-chev" data-open="true" style="margin-top:10px;">
+              <button class="box__header" type="button" aria-expanded="true">
+                <span class="box__title">Example hospital site name</span>
+                <span class="chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              <div class="box__body-wrap">
+                <div class="box__body">
+                  <div class="box__body-inner">
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Head of department</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">St. Margaret's General Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Priya Raman</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">p.raman@stmargarets.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 113 496 0820</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>10 May 2021</span>
+                            <span><small>End</small>09 May 2026</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-c1" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-c1">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Royal Linden Infirmary</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">James Whitcombe</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">j.whitcombe@linden.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0455</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>03 Feb 2018</span>
+                                <span><small>End</small>09 May 2021</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Westbury Community Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Helena Garcia</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">h.garcia@westbury.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 113 496 0211</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>14 Jul 2014</span>
+                                <span><small>End</small>02 Feb 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="box box--nested" data-open="false" style="margin-top:10px;">
+                  <button class="box__header" type="button" aria-expanded="false">
+                    <span class="box__title">Training officer</span>
+                    <span class="chev" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="box__body-wrap">
+                    <div class="box__body">
+                      <div class="box__body-inner">
+                        <div class="form-grid">
+                          <label>Site name</label>
+                          <span class="form-grid__value">Coastguard Memorial Hospital</span>
+                          <label>Site contact</label>
+                          <span class="form-grid__value">Dr. Felix Marlowe</span>
+                          <label>Email</label>
+                          <span class="form-grid__value">f.marlowe@coastguard.example.org</span>
+                          <label>Phone</label>
+                          <span class="form-grid__value">+44 117 496 0314</span>
+                          <label>Start / End date</label>
+                          <span class="form-grid__value date-pair">
+                            <span><small>Start</small>22 Aug 2022</span>
+                            <span><small>End</small>21 Aug 2027</span>
+                          </span>
+                        </div>
+                        <button type="button" class="show-past" data-target="hs-past-c2" aria-expanded="false">Show past contacts</button>
+                        <div class="past-list" id="hs-past-c2">
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Northgate Teaching Hospital</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Dr. Naomi Ashford</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">n.ashford@northgate.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0192</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>11 Nov 2018</span>
+                                <span><small>End</small>21 Aug 2022</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="past-entry">
+                            <p class="past-entry__title">Previous site</p>
+                            <div class="form-grid">
+                              <label>Site name</label>
+                              <span class="form-grid__value">Eastfield County Clinic</span>
+                              <label>Site contact</label>
+                              <span class="form-grid__value">Tomasz Kowalski</span>
+                              <label>Email</label>
+                              <span class="form-grid__value">t.kowalski@eastfield.example.org</span>
+                              <label>Phone</label>
+                              <span class="form-grid__value">+44 117 496 0077</span>
+                              <label>Start / End date</label>
+                              <span class="form-grid__value date-pair">
+                                <span><small>Start</small>05 Mar 2015</span>
+                                <span><small>End</small>10 Nov 2018</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__top-rule" aria-hidden="true"></div>
+    <div class="site-footer__inner">
+      <p class="site-footer__heading">ALL LINKS OPEN IN NEW TABS</p>
+      <ul class="site-footer__links">
+        <li><a href="#">Trainee Management System support</a></li>
+        <li><a href="#">OneFile</a></li>
+        <li><a href="#">Curriculum library</a></li>
+      </ul>
+      <ul class="site-footer__links site-footer__links--secondary">
+        <li><a href="#">National School of Healthcare Science</a></li>
+      </ul>
+      <hr class="site-footer__rule" />
+      <div class="site-footer__bottom">
+        <ul class="site-footer__legal">
+          <li><a href="#">Terms and conditions</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+        <p class="site-footer__copy">
+          © Copyright National School of Healthcare Science<br />
+          and <a href="#">NHS England</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.box').forEach((box) => {
+      const btn = box.querySelector(':scope > .box__header');
+      if (!btn) return;
+      // Provider name (root) is locked open
+      if (box.id === 'box') return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = box.getAttribute('data-open') === 'true';
+        const next = !open;
+        box.setAttribute('data-open', String(next));
+        btn.setAttribute('aria-expanded', String(next));
+      });
+    });
+    document.querySelectorAll('.show-past').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        const open = target.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Hide past contacts' : 'Show past contacts';
+      });
+    });
+
+    // Sidebar provider switching
+    const providerTitleEl = document.querySelector('#box > .box__header > .box__title');
+    document.querySelectorAll('#provider-list a').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('#provider-list a').forEach(x => x.classList.remove('is-active'));
+        a.classList.add('is-active');
+        if (providerTitleEl) providerTitleEl.textContent = a.dataset.provider;
+        // Also update hero title? Keep hero static.
+      });
+    });
+
+    // In every Head of department block: remove "Site name" rows and rename "Site contact" to "Name".
+    (function () {
+      document.querySelectorAll('section.box section.box.box--nested').forEach((inner) => {
+        const title = inner.querySelector(':scope > .box__header > .box__title');
+        if (!title || (title.textContent.trim() !== 'Head of department' && title.textContent.trim() !== 'Training officer')) return;
+        // Add Department row after the Name row if not present
+        inner.querySelectorAll('.form-grid').forEach((grid) => {
+          if (grid.querySelector(':scope > label[data-dept]')) return;
+          const labels = [...grid.querySelectorAll(':scope > label')];
+          if (labels.some(l => l.textContent.trim() === 'Department')) return;
+          // Find the Name (or Site contact, pre-rename) label to insert AFTER its value
+          const nameLbl = labels.find(l => {
+            const t = l.textContent.trim();
+            return t === 'Name' || t === 'Site contact';
+          });
+          const lbl = document.createElement('label');
+          lbl.textContent = 'Department';
+          lbl.dataset.dept = '1';
+          const val = document.createElement('span');
+          val.className = 'form-grid__value';
+          val.textContent = title.textContent.trim() === 'Training officer' ? 'Microbiology training' : 'Microbiology';
+          if (nameLbl && nameLbl.nextElementSibling && nameLbl.nextElementSibling.classList.contains('form-grid__value')) {
+            // insert after the name's value span
+            const after = nameLbl.nextElementSibling.nextSibling;
+            grid.insertBefore(lbl, after);
+            grid.insertBefore(val, after);
+          } else {
+            grid.appendChild(lbl);
+            grid.appendChild(val);
+          }
+        });
+        inner.querySelectorAll('.form-grid > label').forEach((lbl) => {
+          if (title.textContent.trim() !== 'Head of department') return;
+          const text = lbl.textContent.trim();
+          if (text === 'Site name') {
+            const val = lbl.nextElementSibling;
+            lbl.remove();
+            if (val && val.classList.contains('form-grid__value')) val.remove();
+          } else if (text === 'Site contact') {
+            lbl.textContent = 'Name';
+          }
+        });
+        // Remove the "Start" / "End" mini-labels next to the dates
+        inner.querySelectorAll('.date-pair > span > small').forEach((s) => s.remove());
+      });
+    })();
+
+    // Lift "Hospital sites" group out of the Provider accordion so they sit as sibling cards.
+    (function () {
+      const providerBox = document.getElementById('box');
+      if (!providerBox) return;
+      const heading = providerBox.querySelector('.section-heading');
+      if (!heading) return;
+      // Collect heading + all subsequent .box--nested.box--no-chev siblings (the hospital site cards)
+      const group = [heading];
+      let n = heading.nextElementSibling;
+      while (n && n.matches('section.box.box--nested')) {
+        group.push(n);
+        n = n.nextElementSibling;
+      }
+      const wrap = document.createElement('div');
+      wrap.className = 'hospital-sites-group';
+      group.forEach(el => wrap.appendChild(el));
+      providerBox.parentNode.insertBefore(wrap, providerBox.nextSibling);
+    })();
+
+    // Edit mode: convert .form-grid__value spans to inputs and back
+    (function () {
+      const body = document.body;
+      const editBtn = document.querySelector('.hero__edit');
+      const editLabel = editBtn.querySelector('.hero__edit-label');
+      const cancelBtn = document.querySelector('.hero__cancel');
+      if (!editBtn || !cancelBtn) return;
+
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      function parseDate(str) {
+        // "14 Mar 2022" -> {y, m, d}
+        const m = str.trim().match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+        if (!m) return null;
+        const month = MONTHS.findIndex(x => x.toLowerCase() === m[2].toLowerCase());
+        if (month < 0) return null;
+        return { y: +m[3], m: month + 1, d: +m[1] };
+      }
+      function fmtDateISO(parts) {
+        if (!parts) return '';
+        return `${parts.y}-${String(parts.m).padStart(2,'0')}-${String(parts.d).padStart(2,'0')}`;
+      }
+      function fmtDateHuman(iso) {
+        const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (!m) return iso;
+        const day = parseInt(m[3], 10);
+        return `${String(day).padStart(2,'0')} ${MONTHS[parseInt(m[2],10)-1]} ${m[1]}`;
+      }
+
+      let snapshot = null; // map of value-span elements -> original text
+
+      // Build a blank contact entry by cloning the structure of an existing form-grid in the block.
+      function buildBlankEntry(srcGrid) {
+        const wrap = document.createElement('div');
+        wrap.className = 'added-entry';
+        const title = document.createElement('p');
+        title.className = 'added-entry__title';
+        title.textContent = 'New contact';
+        wrap.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'form-grid';
+        // Clone label/value pairs
+        const children = srcGrid.children;
+        for (let i = 0; i < children.length; i++) {
+          const node = children[i];
+          if (node.tagName === 'LABEL') {
+            const lbl = document.createElement('label');
+            lbl.textContent = node.textContent;
+            grid.appendChild(lbl);
+          } else if (node.classList.contains('form-grid__value')) {
+            const val = document.createElement('span');
+            val.className = 'form-grid__value';
+            if (node.classList.contains('date-pair')) {
+              val.classList.add('date-pair');
+              const startWrap = document.createElement('span');
+              const startSm = document.createElement('small');
+              startSm.textContent = 'Start';
+              const startInput = document.createElement('input');
+              startInput.type = 'date';
+              startInput.dataset.editField = '1';
+              startWrap.appendChild(startSm);
+              startWrap.appendChild(startInput);
+              const endWrap = document.createElement('span');
+              const endSm = document.createElement('small');
+              endSm.textContent = 'End';
+              const endInput = document.createElement('input');
+              endInput.type = 'date';
+              endInput.dataset.editField = '1';
+              endWrap.appendChild(endSm);
+              endWrap.appendChild(endInput);
+              val.appendChild(startWrap);
+              val.appendChild(endWrap);
+            } else {
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.dataset.editField = '1';
+              val.appendChild(input);
+            }
+            grid.appendChild(val);
+          }
+        }
+        wrap.appendChild(grid);
+
+        // Current contact checkbox row
+        const cbRow = document.createElement('label');
+        cbRow.className = 'current-contact-row';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        const cbText = document.createElement('span');
+        cbText.textContent = 'Current contact';
+        cbRow.appendChild(cb);
+        cbRow.appendChild(cbText);
+        wrap.appendChild(cbRow);
+
+        // Remove link
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'remove-contact';
+        remove.textContent = 'Remove contact';
+        remove.addEventListener('click', () => wrap.remove());
+        wrap.appendChild(remove);
+
+        return wrap;
+      }
+
+      function enterEdit() {
+        snapshot = new Map();
+        // Inject "Remove contact" links after every form-grid (current + past entries)
+        document.querySelectorAll('.box .form-grid').forEach((grid) => {
+          if (grid.nextElementSibling && grid.nextElementSibling.classList.contains('remove-contact')) return;
+          const link = document.createElement('button');
+          link.type = 'button';
+          link.className = 'remove-contact';
+          link.textContent = 'Remove contact';
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pastEntry = grid.closest('.past-entry');
+            if (pastEntry) {
+              pastEntry.remove();
+            } else {
+              // Current contact: clear the inputs
+              grid.querySelectorAll('input').forEach((inp) => { inp.value = ''; });
+            }
+          });
+          grid.parentNode.insertBefore(link, grid.nextSibling);
+        });
+        document.querySelectorAll('.form-grid > .form-grid__value').forEach((span) => {
+          if (span.classList.contains('date-pair')) {
+            // Date pair: two inner <span> with text like "14 Mar 2022" (Start/End mini-labels removed in HoD blocks)
+            const inners = span.querySelectorAll(':scope > span');
+            snapshot.set(span, span.innerHTML);
+            inners.forEach((s) => {
+              const small = s.querySelector('small');
+              const txt = (small ? s.textContent.replace(small.textContent, '') : s.textContent).trim();
+              const parts = parseDate(txt);
+              const input = document.createElement('input');
+              input.type = 'date';
+              input.value = fmtDateISO(parts);
+              input.dataset.editField = '1';
+              if (small) {
+                s.innerHTML = '';
+                s.appendChild(small);
+                s.appendChild(input);
+              } else {
+                s.innerHTML = '';
+                s.appendChild(input);
+              }
+            });
+          } else {
+            const original = span.textContent;
+            snapshot.set(span, original);
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = original;
+            input.dataset.editField = '1';
+            span.innerHTML = '';
+            span.appendChild(input);
+          }
+        });
+        body.setAttribute('data-mode', 'edit');
+        if (editLabel) editLabel.textContent = 'Save';
+
+        // Inject "Add new contact" links inside Head of department / Annual monitoring contact blocks
+        document.querySelectorAll('section.box.box--nested').forEach((box) => {
+          const title = box.querySelector(':scope > .box__header > .box__title');
+          if (!title) return;
+          const t = title.textContent.trim();
+          if (t !== 'Head of department' && t !== 'Annual monitoring contact') return;
+          const inner = box.querySelector(':scope > .box__body-wrap > .box__body > .box__body-inner');
+          if (!inner) return;
+          if (inner.querySelector(':scope > .add-new-contact')) return;
+          const link = document.createElement('button');
+          link.type = 'button';
+          link.className = 'add-new-contact';
+          link.textContent = 'Add new contact';
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const srcGrid = inner.querySelector(':scope > .form-grid');
+            if (!srcGrid) return;
+            const entry = buildBlankEntry(srcGrid);
+            inner.appendChild(entry);
+            requestAnimationFrame(() => {
+              const rect = entry.getBoundingClientRect();
+              const targetY = window.scrollY + rect.top - (window.innerHeight / 2) + (rect.height / 2);
+              window.scrollTo({ top: targetY, behavior: 'smooth' });
+              const firstInput = entry.querySelector('input[type="text"], input[type="date"]');
+              if (firstInput) firstInput.focus({ preventScroll: true });
+            });
+          });
+          inner.insertBefore(link, inner.firstChild);
+        });
+      }
+
+      function exitEdit(commit) {
+        if (!snapshot) return;
+        document.querySelectorAll('.form-grid > .form-grid__value').forEach((span) => {
+          if (span.classList.contains('date-pair')) {
+            if (commit) {
+              const inners = span.querySelectorAll(':scope > span');
+              inners.forEach((s) => {
+                const small = s.querySelector('small');
+                const input = s.querySelector('input[type="date"]');
+                const human = input && input.value ? fmtDateHuman(input.value) : '';
+                s.innerHTML = '';
+                if (small) s.appendChild(small);
+                s.appendChild(document.createTextNode(human));
+              });
+            } else {
+              const orig = snapshot.get(span);
+              if (orig != null) span.innerHTML = orig;
+            }
+          } else {
+            const input = span.querySelector('input[type="text"]');
+            if (commit && input) {
+              span.textContent = input.value;
+            } else {
+              const orig = snapshot.get(span);
+              if (orig != null) span.textContent = orig;
+            }
+          }
+        });
+        snapshot = null;
+        document.querySelectorAll('.remove-contact').forEach((el) => el.remove());
+        document.querySelectorAll('.add-new-contact').forEach((el) => el.remove());
+        document.querySelectorAll('.added-entry').forEach((el) => el.remove());
+        body.setAttribute('data-mode', 'view');
+        if (editLabel) editLabel.textContent = 'Edit this page';
+      }
+
+      editBtn.addEventListener('click', () => {
+        if (body.getAttribute('data-mode') === 'edit') {
+          exitEdit(true);
+        } else {
+          enterEdit();
+        }
+      });
+      cancelBtn.addEventListener('click', () => exitEdit(false));
+      body.setAttribute('data-mode', 'view');
+    })();
+  </script>
+</body>
+</html>
